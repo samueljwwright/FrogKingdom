@@ -1,0 +1,64 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class CastleExterior : MonoBehaviour
+{
+    //waypoints
+
+    public GameObject WP01;
+    private bool WP01BOOL;
+
+    public GameObject WP02;
+    private bool WP02BOOL;
+
+
+    //player&position
+
+    public GameObject p;
+    public Vector3 wp;
+
+    void Start()
+    {
+        //if (WP01BOOL == true)
+        //{
+         //   p.transform.position = wp;
+         //   WP01.SetActive(false);
+         //   WP02.SetActive(true);
+        //}
+
+
+
+    }
+
+
+    void Update()
+    {
+
+        WP01 = GameObject.Find("WP01");
+        WP02 = GameObject.Find("WP02");
+
+
+
+
+        if (WP01.GetComponent<ObjectivePoint>().Complete == true)
+        {
+            WP01BOOL = true;
+            //wp = WP01.GetComponent<ObjectivePoint>().WaypointPos;
+        }
+        if (WP01BOOL == true)
+        {
+            //p.transform.position = wp;
+            WP01.SetActive(false);
+            WP02.SetActive(true);
+        }
+        else
+        {
+            WP01.SetActive(true);
+            WP02.SetActive(false);
+        }
+
+
+    }
+}

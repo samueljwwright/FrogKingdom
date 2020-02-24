@@ -1,0 +1,25 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class SwordCollider : MonoBehaviour
+{
+    private EnemyManager EManager;
+    private void Start()
+    {
+        this.gameObject.SetActive(false);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Enemy")
+        {
+            EManager = other.GetComponent<EnemyManager>();
+            EManager.health = 0;
+            Debug.Log("Strike");
+            Debug.Log(EManager.health);
+        }
+    }
+
+}
+

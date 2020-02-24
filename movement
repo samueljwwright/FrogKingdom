@@ -1,0 +1,108 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerMovement : MonoBehaviour
+{
+    private Camera cam;
+    private CharacterController p;
+    public Animator a;
+    private Vector3 lastPosition;
+
+
+    void Start()
+    {
+
+        cam = Camera.main;
+        p = this.GetComponent<CharacterController>();
+        
+    }
+
+    void Update()
+    {
+
+
+        Ray CamRay = cam.ScreenPointToRay(Input.mousePosition);
+        Vector3 buffer = new Vector3(0, -16, 0);
+        Plane ground = new Plane(Vector3.up, buffer);
+        float rl;
+
+        if (ground.Raycast(CamRay, out rl))
+        {
+
+
+            Vector3 mpos = CamRay.GetPoint(rl);
+            Debug.DrawLine(CamRay.origin, mpos, Color.blue);
+
+
+                if (mpos.z > p.transform.position.z - 1 && mpos.z < p.transform.position.z + 1 && mpos.x > p.transform.position.x - 1 && mpos.x < p.transform.position.x + 1 && p.isGrounded)
+                {
+                    a.Play("PlayerIdle");
+                    Debug.Log("rotation blocked");
+                }
+                else
+                {
+                    Movement();
+                    transform.LookAt(new Vector3(mpos.x, transform.position.y, mpos.z));
+                }
+                Debug.Log("x" + mpos.x + " p " + transform.position.x);
+                Debug.Log("z" + mpos.z + " p " + transform.position.z);
+            }
+        
+
+
+    }
+
+
+    public float speed;
+    public float jumpSpeed;
+    public float gravity;
+
+    private Vector3 move = Vector3.zero;
+    private Vector3 strafe = Vector3.zero;
+
+    void Movement()
+    {
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
+
+        if (p.isGrounded)
+        {
+
+            strafe = transform.right * Input.GetAxis("Horizontal");
+            move = transform.forward * Input.GetAxis("Vertical");
+            
+          
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                move.y = jumpSpeed;
+            }
+        }
+
+        if (lastPosition != this.transform.position)
+        {
+            a.Play("Walk");
+        }
+        else
+        {
+
+            a.Play("PlayerIdle");
+        }
+
+        lastPosition = this.transform.position;
+
+
+        move.y -= gravity * Time.deltaTime;
+        p.Move(strafe * speed * Time.deltaTime);
+        p.Move(move * speed * Time.deltaTime);
+        
+    }
+
+
+
+
+
+
+
+}

@@ -1,0 +1,51 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class LabExterior : MonoBehaviour
+{ 
+//waypoints
+
+    public GameObject LP01;
+    private bool LP01BOOL;
+
+    public GameObject LP02;
+    private bool LP02BOOL;
+
+void Start()
+{
+
+        
+
+
+}
+
+
+void Update()
+{
+
+    LP01 = GameObject.Find("LP01");
+    LP02 = GameObject.Find("LP02");
+
+
+    
+
+        if (LP01.GetComponent<ObjectivePoint>().Complete == true)
+        {
+            LP01BOOL = true;
+
+        }
+        if (LP01BOOL == true)
+        {
+            LP01.SetActive(false);
+            LP02.SetActive(true);
+        }
+        else
+        {
+            LP01.SetActive(true);
+            LP02.SetActive(false);
+        }
+
+
+    }
+}
